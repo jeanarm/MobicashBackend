@@ -6,10 +6,13 @@ class CustomersController < ApplicationController
   # GET /customers
   def index
     @customers = Customer.all
-
     render json: @customers
   end
-
+  def pdf_generation
+    @customers = Customer.all
+        pdf = CustomerPdf.new(@customers)
+        send_data pdf.render, filename: "customers_pdf.pdf",type: "application/pdf",disposition: "inline"
+  end
   # GET /customers/1
   def show
     render json: @customer
